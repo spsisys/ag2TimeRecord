@@ -1,0 +1,8 @@
+<?xml version="1.0"?>
+<ag2TimeRecord>
+	<hostName>ag2Back</hostName>
+	<hostIP>localhost</hostIP>
+	<db>ag2Db_development</db>
+	<user>root</user>
+	<pswd>false</pswd>
+</ag2TimeRecord>

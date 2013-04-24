@@ -20,7 +20,7 @@ public class MySQLAccess {
 			Class.forName("com.mysql.jdbc.Driver");
 			// Setup the connection
 			connection = DriverManager.getConnection(connectionString,
-					Global.user, Global.pswd);
+					Global.db_user, Global.db_pswd);
 			// PreparedStatement to issue SQL query
 			preparedStatement = connection
 					.prepareStatement("select * from workers");
@@ -69,7 +69,7 @@ public class MySQLAccess {
 			Class.forName("com.mysql.jdbc.Driver");
 			// Setup the connection
 			connection = DriverManager.getConnection(connectionString,
-					Global.user, Global.pswd);
+					Global.db_user, Global.db_pswd);
 			// PreparedStatement to INSERT values:
 			// id, timerecord_date, timerecord_time,
 			// worker_id, timerecord_type, timerecord_code
