@@ -2,7 +2,7 @@ package es.aguaygestion.ag2timerecord;
 
 import es.aguaygestion.ag2timerecord.XMLParser;
 
-public class Boot {
+public class ag2TimeRecord {
 
 	/**
 	 * @param args
