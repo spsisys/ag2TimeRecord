@@ -9,18 +9,39 @@ public class Boot {
 	 * @param args
 	 */
 	public static void main(String[] args) throws Exception {
-		System.out.println("Workers");
+		// Console exit message
+		String exitMessage = null;
+
+		// Display Main Window
+		try {
+			TimeRecordWindow frame = new TimeRecordWindow();
+			frame.setVisible(true);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		System.out.println("ag2TimeRecord Client Started.");
+		
 		XMLParser xml = new XMLParser();
 		if (xml.readAppXML(Global.appPath, Global.xmlAppFile)) {
 			if (xml.readUsrXML(Global.usrPath, Global.xmlUsrFile)) {
 				MySQLAccess dao = new MySQLAccess();
-				dao.readWorkers();
+				// dao.readWorkers();
 				if (dao.writeTimeRecord()) {
-					System.out.println("\nTime record saved for worker "
-							+ Global.worker_user + " id " + Global.worker_id);
+					exitMessage = "\nTime record saved for worker "
+							+ Global.worker_user + " id " + Global.worker_id
+							+ ". Finished.";
+				} else {
+					exitMessage = "\nError writing Time Record for current user!";
 				}
+			} else {
+				exitMessage = "\nError reading/writing User XML file!";
 			}
+		} else {
+			exitMessage = "\nError reading Application XML file!";
 		}
+		
+		System.out.println(exitMessage);
 	}
 
 }
