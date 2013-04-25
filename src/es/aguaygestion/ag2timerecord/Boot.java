@@ -9,7 +9,7 @@ public class Boot {
 	 */
 	public static void main(String[] args) throws Exception {
 		// Console exit message
-		String exitMessage = null;
+		String startMessage = null;
 
 		System.out.println("ag2TimeRecord Client Started.");
 
@@ -18,19 +18,20 @@ public class Boot {
 			if (xml.readUsrXML(Global.usrPath, Global.xmlUsrFile)) {
 				// Display Main Window
 				try {
-					TimeRecordWindow frame = new TimeRecordWindow();
-					frame.setVisible(true);
+					TimeRecordWindow window = new TimeRecordWindow();
+					window.frmAgtimerecordMarcajes.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
 			} else {
-				exitMessage = "\nError reading/writing User XML file!";
+				startMessage = "\nError reading/writing User XML file!";
 			}
 		} else {
-			exitMessage = "\nError reading Application XML file!";
+			startMessage = "\nError reading Application XML file!";
 		}
-
-		System.out.println(exitMessage);
+		if (startMessage != null) {
+			System.out.println(startMessage);
+		}
 	}
 
 }

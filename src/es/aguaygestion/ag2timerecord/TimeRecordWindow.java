@@ -1,19 +1,12 @@
 package es.aguaygestion.ag2timerecord;
 
-import java.awt.BorderLayout;
 import java.awt.EventQueue;
 
 import javax.swing.JFrame;
-import javax.swing.JPanel;
-import javax.swing.border.EmptyBorder;
 
-public class TimeRecordWindow extends JFrame {
+public class TimeRecordWindow {
 
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
-	private JPanel contentPane;
+	public JFrame frmAgtimerecordMarcajes;
 
 	/**
 	 * Launch the application.
@@ -22,8 +15,8 @@ public class TimeRecordWindow extends JFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					TimeRecordWindow frame = new TimeRecordWindow();
-					frame.setVisible(true);
+					TimeRecordWindow window = new TimeRecordWindow();
+					window.frmAgtimerecordMarcajes.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -32,15 +25,22 @@ public class TimeRecordWindow extends JFrame {
 	}
 
 	/**
-	 * Create the frame.
+	 * Create the application.
 	 */
 	public TimeRecordWindow() {
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 450, 300);
-		contentPane = new JPanel();
-		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
-		contentPane.setLayout(new BorderLayout(0, 0));
-		setContentPane(contentPane);
+		initialize();
+	}
+
+	/**
+	 * Initialize the contents of the frame.
+	 */
+	private void initialize() {
+		frmAgtimerecordMarcajes = new JFrame();
+		frmAgtimerecordMarcajes.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frmAgtimerecordMarcajes.setTitle("ag2TimeRecord | Marcajes");
+		frmAgtimerecordMarcajes.setResizable(false);
+		frmAgtimerecordMarcajes.setBounds(100, 100, 450, 300);
+		frmAgtimerecordMarcajes.getContentPane().setLayout(null);
 	}
 
 }
