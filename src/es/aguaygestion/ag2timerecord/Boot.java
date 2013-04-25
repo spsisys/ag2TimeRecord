@@ -11,6 +11,7 @@ public class Boot {
 	public static void main(String[] args) throws Exception {
 		// Console exit message
 		String exitMessage = null;
+		String hola = null;
 
 		// Display Main Window
 		try {
