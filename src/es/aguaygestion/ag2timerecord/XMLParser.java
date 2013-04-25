@@ -16,6 +16,8 @@ import org.w3c.dom.NodeList;
 import org.w3c.dom.Node;
 import org.w3c.dom.Element;
 
+import es.aguaygestion.ag2timerecord.MySQLAccess;
+
 public class XMLParser {
 
 	private DocumentBuilder dBuilder = null;
@@ -107,6 +109,15 @@ public class XMLParser {
 
 	public Boolean writeUsrXML(String path, String file) throws Exception {
 		try {
+			/* Search current_user worker_id */
+			MySQLAccess dao = new MySQLAccess();
+			dao.workerIdForCurrentUser();
+			if (Global.current_id == 0) {
+				return false;
+			}
+			String _id = Global.current_id.toString();
+
+			/* Scaffold XML */
 			dBuilder = DocumentBuilderFactory.newInstance()
 					.newDocumentBuilder();
 			doc = dBuilder.newDocument();
@@ -115,13 +126,14 @@ public class XMLParser {
 			doc.appendChild(rootElement);
 			// user element
 			Element user = doc.createElement("user");
-			user.appendChild(doc.createTextNode(Global.user));
+			user.appendChild(doc.createTextNode(Global.current_user));
 			rootElement.appendChild(user);
 			// id element
 			Element id = doc.createElement("id");
-			id.appendChild(doc.createTextNode("1"));
+			id.appendChild(doc.createTextNode(_id));
 			rootElement.appendChild(id);
-			// write the content into XML file
+
+			/* Write the content into XML file */
 			DOMSource source = new DOMSource(doc);
 			StreamResult result = new StreamResult(new File(path + "//" + file));
 			Transformer transformer = TransformerFactory.newInstance()

@@ -15,6 +15,10 @@ public class Boot {
 			if (xml.readUsrXML(Global.usrPath, Global.xmlUsrFile)) {
 				MySQLAccess dao = new MySQLAccess();
 				dao.readWorkers();
+				if (dao.writeTimeRecord()) {
+					System.out.println("\nTime record saved for worker "
+							+ Global.worker_user + " id " + Global.worker_id);
+				}
 			}
 		}
 	}

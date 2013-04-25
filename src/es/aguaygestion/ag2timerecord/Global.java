@@ -18,7 +18,8 @@ public class Global {
 	public static String appPath = System.getProperty("user.dir");
 	public static String usrPath = System.getProperty("user.home");
 	// Current user
-	public static String user = System.getProperty("user.name");
+	public static String current_user = System.getProperty("user.name");
+	public static Integer current_id = 0;
 	
 	public static Boolean fileExists(String fullFileName) {
 		File f = new File(fullFileName);

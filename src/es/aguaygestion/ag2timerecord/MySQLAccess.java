@@ -14,13 +14,59 @@ public class MySQLAccess {
 	private String connectionString = "jdbc:mysql://" + Global.hostIP + "/"
 			+ Global.db;
 
-	public void readWorkers() throws Exception {
+	public Boolean newConnection() throws Exception {
 		try {
 			// Load the MySQL driver
 			Class.forName("com.mysql.jdbc.Driver");
 			// Setup the connection
 			connection = DriverManager.getConnection(connectionString,
 					Global.db_user, Global.db_pswd);
+			return true;
+		} catch (Exception e) {
+			return false;
+		}
+	}
+
+	public void workerIdForCurrentUser() throws Exception {
+		if (!newConnection()) {
+			return;
+		}
+		try {
+			/* PreparedStatement to issue SQL query */
+			// Search user using current_user to extract user_id
+			preparedStatement = connection
+					.prepareStatement("select id from users where name = '"
+							+ Global.current_user + "'");
+			resultSet = preparedStatement.executeQuery();
+			resultSet.first();
+			Integer _user_id = resultSet.getInt("id");
+			if (_user_id == null) {
+				Global.current_id = 0;
+				return;
+			}
+			// Search worker using user_id to extract worker_id
+			preparedStatement = connection
+					.prepareStatement("select id from workers where user_id = "
+							+ _user_id);
+			resultSet = preparedStatement.executeQuery();
+			resultSet.first();
+			Integer _worker_id = resultSet.getInt("id");
+			if (_worker_id == null) {
+				_worker_id = 0;
+			}
+			Global.current_id = _worker_id;
+		} catch (Exception e) {
+			throw e;
+		} finally {
+			closeDataObjects();
+		}
+	}
+
+	public void readWorkers() throws Exception {
+		try {
+			if (!newConnection()) {
+				return;
+			}
 			// PreparedStatement to issue SQL query
 			preparedStatement = connection
 					.prepareStatement("select * from workers");
@@ -53,36 +99,34 @@ public class MySQLAccess {
 		}
 	}
 
-	@SuppressWarnings("deprecation")
-	public void writeTimeRecord() throws Exception {
+	public Boolean writeTimeRecord() throws Exception {
 		try {
+			if (!newConnection()) {
+				return false;
+			}
 			// Current date and time
-			LocalDate today = new LocalDate();
-			LocalTime now = new LocalTime();
-			Integer yy = today.getYear();
-			Integer mm = today.getMonthOfYear();
-			Integer dd = today.getDayOfMonth();
-			Integer h = now.getHourOfDay();
-			Integer m = now.getMinuteOfHour();
-			Integer s = now.getSecondOfMinute();
-			// Load the MySQL driver
-			Class.forName("com.mysql.jdbc.Driver");
-			// Setup the connection
-			connection = DriverManager.getConnection(connectionString,
-					Global.db_user, Global.db_pswd);
+			DateTime dt = new DateTime();
+			Timestamp _at = new Timestamp(dt.getMillis());
+			java.sql.Date timerecord_date = new java.sql.Date(dt.getMillis());
+			java.sql.Time timerecord_time = new java.sql.Time(dt.getMillis());
 			// PreparedStatement to INSERT values:
 			// id, timerecord_date, timerecord_time,
-			// worker_id, timerecord_type, timerecord_code
+			// worker_id, timerecord_type, timerecord_code,
+			// created_at, updated_at
 			preparedStatement = connection
-					.prepareStatement("insert into time_records values (default, ?, ?, ?, ? , ?)");
-			preparedStatement.setDate(1, new java.sql.Date(yy, mm, dd));
-			preparedStatement.setTime(2, new java.sql.Time(h, m, s));
-			preparedStatement.setInt(3, 1);
+					.prepareStatement("insert into time_records values (default, ?, ?, ?, ? , ?, ?, ?)");
+			preparedStatement.setDate(1, timerecord_date);
+			preparedStatement.setTime(2, timerecord_time);
+			preparedStatement.setInt(3, Global.worker_id);
 			preparedStatement.setInt(4, 1);
 			preparedStatement.setInt(5, 1);
+			preparedStatement.setTimestamp(6, _at);
+			preparedStatement.setTimestamp(7, _at);
 			preparedStatement.executeUpdate();
+			
+			return true;
 		} catch (Exception e) {
-
+			return false;
 		} finally {
 			closeDataObjects();
 		}
