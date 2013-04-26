@@ -22,6 +22,8 @@ import java.awt.Color;
 import javax.swing.SwingConstants;
 import org.eclipse.wb.swing.FocusTraversalOnArray;
 import java.awt.Component;
+import java.awt.Frame;
+import java.awt.Toolkit;
 
 @SuppressWarnings("unused")
 public class TimeRecordWindow {
@@ -59,10 +61,12 @@ public class TimeRecordWindow {
 	private void initialize() {
 		
 		frmAgtimerecordMarcajes = new JFrame();
+		frmAgtimerecordMarcajes.setFocusCycleRoot(false);
 		frmAgtimerecordMarcajes.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frmAgtimerecordMarcajes.setTitle("ag2TimeRecord | Marcajes");
 		frmAgtimerecordMarcajes.setResizable(false);
 		frmAgtimerecordMarcajes.setBounds(100, 100, 378, 176);
+		frmAgtimerecordMarcajes.setIconImage(Toolkit.getDefaultToolkit().getImage(Global.appPath + "//img/ag2TimeRecord128.png"));
 		
 		JButton btnRegistrarMarcaje = new JButton("Registrar Marcaje");
 		btnRegistrarMarcaje.setBounds(16, 106, 344, 38);
