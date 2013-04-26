@@ -184,16 +184,21 @@ public class MySQLAccess {
 			java.sql.Date timerecord_date = new java.sql.Date(dt.getMillis());
 			java.sql.Time timerecord_time = new java.sql.Time(dt.getMillis());
 			// PreparedStatement to INSERT values:
-			// id, timerecord_date, timerecord_time,
-			// worker_id, timerecord_type, timerecord_code,
-			// created_at, updated_at
+			// 0: id
+			// 1: timerecord_date
+			// 2: timerecord_time,
+			// 3: worker_id
+			// 4: timerecord_type
+			// 5: timerecord_code,
+			// 6: created_at
+			// 7: updated_at
 			preparedStatement = connection
 					.prepareStatement("insert into time_records values (default, ?, ?, ?, ? , ?, ?, ?)");
 			preparedStatement.setDate(1, timerecord_date);
 			preparedStatement.setTime(2, timerecord_time);
 			preparedStatement.setInt(3, Global.worker_id);
 			preparedStatement.setInt(4, 1);
-			preparedStatement.setInt(5, 1);
+			preparedStatement.setInt(5, Global.timerecord_code_id);
 			preparedStatement.setTimestamp(6, _at);
 			preparedStatement.setTimestamp(7, _at);
 			preparedStatement.executeUpdate();

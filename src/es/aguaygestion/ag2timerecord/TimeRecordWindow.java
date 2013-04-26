@@ -7,6 +7,7 @@ import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
+import javax.swing.ComboBoxModel;
 import javax.swing.JLabel;
 import javax.swing.JComboBox;
 import javax.swing.JRadioButton;
@@ -85,7 +86,19 @@ public class TimeRecordWindow {
 		frmAgtimerecordMarcajes.getContentPane().add(panel_1);
 		panel_1.setLayout(null);
 		
-		JComboBox comboBox = new JComboBox();
+		final JComboBox comboBox = new JComboBox(Global.codesList.toArray());
+		comboBox.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				try {
+					TimeRecordCode item = (TimeRecordCode)comboBox.getSelectedItem();
+					Global.timerecord_code_id = item.getId();
+					System.out.println(Global.timerecord_code_id);
+				} catch (Exception e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+		});
 		comboBox.setBounds(6, 22, 220, 27);
 		panel_1.add(comboBox);
 		

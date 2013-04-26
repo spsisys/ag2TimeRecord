@@ -20,17 +20,16 @@ public class ag2TimeRecord {
 			// Try read XML User file (or generate it)
 			if (xml.readUsrXML(Global.usrPath, Global.xmlUsrFile)) {
 				MySQLAccess dao = new MySQLAccess();
-				dao.readWorkers();
 				// Load DAO Lists
 				dao.readTimeRecordTypes();
 				dao.readTimeRecordCodes();
 				// Display Main Window
-//				try {
-//					TimeRecordWindow window = new TimeRecordWindow();
-//					window.frmAgtimerecordMarcajes.setVisible(true);
-//				} catch (Exception e) {
-//					e.printStackTrace();
-//				}
+				try {
+					TimeRecordWindow window = new TimeRecordWindow();
+					window.frmAgtimerecordMarcajes.setVisible(true);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
 			} else {
 				startMessage = "\nError reading/writing User XML file!";
 			}

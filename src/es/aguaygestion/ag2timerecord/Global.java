@@ -8,6 +8,9 @@ public class Global {
 	// DAO Lists
 	public static List<TimeRecordType> typesList = new ArrayList<TimeRecordType>();
 	public static List<TimeRecordCode> codesList = new ArrayList<TimeRecordCode>();
+	// DAO return values
+	public static Integer timerecord_type_id = 0;
+	public static Integer timerecord_code_id = 0;
 	// XML Application
 	public static String hostName = null;
 	public static String hostIP = null;
