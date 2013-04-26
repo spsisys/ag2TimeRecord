@@ -1,8 +1,13 @@
 package es.aguaygestion.ag2timerecord;
 
 import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Global {
+	// DAO Lists
+	public static List<TimeRecordType> typesList = new ArrayList<TimeRecordType>();
+	public static List<TimeRecordCode> codesList = new ArrayList<TimeRecordCode>();
 	// XML Application
 	public static String hostName = null;
 	public static String hostIP = null;
@@ -19,7 +24,8 @@ public class Global {
 	public static String usrPath = System.getProperty("user.home");
 	// Current user
 	public static String current_user = System.getProperty("user.name");
-	public static Integer current_id = 0;
+	// Current worker name
+	public static String worker_name = null;
 	
 	public static Boolean fileExists(String fullFileName) {
 		File f = new File(fullFileName);

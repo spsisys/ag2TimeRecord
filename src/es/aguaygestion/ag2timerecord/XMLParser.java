@@ -1,5 +1,7 @@
 package es.aguaygestion.ag2timerecord;
 
+import es.aguaygestion.ag2timerecord.MySQLAccess;
+
 import java.io.File;
 
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -15,8 +17,6 @@ import org.w3c.dom.Document;
 import org.w3c.dom.NodeList;
 import org.w3c.dom.Node;
 import org.w3c.dom.Element;
-
-import es.aguaygestion.ag2timerecord.MySQLAccess;
 
 public class XMLParser {
 
@@ -112,10 +112,10 @@ public class XMLParser {
 			/* Search current_user worker_id */
 			MySQLAccess dao = new MySQLAccess();
 			dao.workerIdForCurrentUser();
-			if (Global.current_id == 0) {
+			if (Global.worker_id == 0) {
 				return false;
 			}
-			String _id = Global.current_id.toString();
+			String _id = Global.worker_id.toString();
 
 			/* Scaffold XML */
 			dBuilder = DocumentBuilderFactory.newInstance()

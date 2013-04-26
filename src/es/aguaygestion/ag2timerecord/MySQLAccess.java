@@ -10,6 +10,7 @@ public class MySQLAccess {
 	private Statement statement = null;
 	private PreparedStatement preparedStatement = null;
 	private ResultSet resultSet = null;
+
 	// For Connection
 	private String connectionString = "jdbc:mysql://" + Global.hostIP + "/"
 			+ Global.db;
@@ -41,12 +42,12 @@ public class MySQLAccess {
 			resultSet.first();
 			Integer _user_id = resultSet.getInt("id");
 			if (_user_id == null) {
-				Global.current_id = 0;
+				Global.worker_id = 0;
 				return;
 			}
 			// Search worker using user_id to extract worker_id
 			preparedStatement = connection
-					.prepareStatement("select id from workers where user_id = "
+					.prepareStatement("select id, last_name, first_name from workers where user_id = "
 							+ _user_id);
 			resultSet = preparedStatement.executeQuery();
 			resultSet.first();
@@ -54,7 +55,30 @@ public class MySQLAccess {
 			if (_worker_id == null) {
 				_worker_id = 0;
 			}
-			Global.current_id = _worker_id;
+			Global.worker_id = _worker_id;
+		} catch (Exception e) {
+			throw e;
+		} finally {
+			closeDataObjects();
+		}
+	}
+
+	public void workerNameForCurrentWorker() throws Exception {
+		if (!newConnection()) {
+			return;
+		}
+		try {
+			/* PreparedStatement to issue SQL query */
+			// Search worker using worker_id
+			preparedStatement = connection
+					.prepareStatement("select last_name, first_name from workers where id = "
+							+ Global.worker_id);
+			resultSet = preparedStatement.executeQuery();
+			resultSet.first();
+			String _worker_last_name = resultSet.getString("last_name");
+			String _worker_first_name = resultSet.getString("first_name");
+			Global.worker_name = _worker_last_name + ", "
+					+ _worker_first_name;
 		} catch (Exception e) {
 			throw e;
 		} finally {
@@ -99,6 +123,56 @@ public class MySQLAccess {
 		}
 	}
 
+	public void readTimeRecordTypes() throws Exception {
+		try {
+			if (!newConnection()) {
+				return;
+			}
+			// PreparedStatement to issue SQL query
+			preparedStatement = connection
+					.prepareStatement("select id, name from timerecord_types");
+			// SQL query's ResultSet with PreparedStatement
+			resultSet = preparedStatement.executeQuery();
+			// Load types list
+			Global.typesList.clear();
+			while (resultSet.next()) {
+				Integer _id = resultSet.getInt("id");
+				String _name = resultSet.getString("name");
+				TimeRecordType _type = new TimeRecordType(_id, _name);
+				Global.typesList.add(_type);
+			}
+		} catch (Exception e) {
+			throw e;
+		} finally {
+			closeDataObjects();
+		}
+	}
+
+	public void readTimeRecordCodes() throws Exception {
+		try {
+			if (!newConnection()) {
+				return;
+			}
+			// PreparedStatement to issue SQL query
+			preparedStatement = connection
+					.prepareStatement("select id, name from timerecord_codes");
+			// SQL query's ResultSet with PreparedStatement
+			resultSet = preparedStatement.executeQuery();
+			// Load codes list
+			Global.codesList.clear();
+			while (resultSet.next()) {
+				Integer _id = resultSet.getInt("id");
+				String _name = resultSet.getString("name");
+				TimeRecordCode _code = new TimeRecordCode(_id, _name);
+				Global.codesList.add(_code);
+			}
+		} catch (Exception e) {
+			throw e;
+		} finally {
+			closeDataObjects();
+		}
+	}
+
 	public Boolean writeTimeRecord() throws Exception {
 		try {
 			if (!newConnection()) {
@@ -123,7 +197,7 @@ public class MySQLAccess {
 			preparedStatement.setTimestamp(6, _at);
 			preparedStatement.setTimestamp(7, _at);
 			preparedStatement.executeUpdate();
-			
+
 			return true;
 		} catch (Exception e) {
 			return false;
