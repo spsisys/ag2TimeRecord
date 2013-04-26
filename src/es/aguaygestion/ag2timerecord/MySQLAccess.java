@@ -197,7 +197,7 @@ public class MySQLAccess {
 			preparedStatement.setDate(1, timerecord_date);
 			preparedStatement.setTime(2, timerecord_time);
 			preparedStatement.setInt(3, Global.worker_id);
-			preparedStatement.setInt(4, 1);
+			preparedStatement.setInt(4, Global.timerecord_type_id);
 			preparedStatement.setInt(5, Global.timerecord_code_id);
 			preparedStatement.setTimestamp(6, _at);
 			preparedStatement.setTimestamp(7, _at);

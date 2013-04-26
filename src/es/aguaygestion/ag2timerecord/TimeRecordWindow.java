@@ -108,20 +108,49 @@ public class TimeRecordWindow {
 		frmAgtimerecordMarcajes.getContentPane().add(panel);
 		panel.setLayout(null);
 		
-		JRadioButton rdbtnE = new JRadioButton("E");
-		rdbtnE.setBounds(16, 22, 39, 23);
-		panel.add(rdbtnE);
-		buttonGroup.add(rdbtnE);
+		// Timerecord_types radio buttons
+		int x = 16;
+		for(int i = 0; i < Global.typesList.size(); i++) {
+			final JRadioButton rdbtn = new JRadioButton(Global.typesList.get(i).getName());
+			rdbtn.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent arg0) {
+					try {
+						int _id = 0;
+						for(int j = 0; j < Global.typesList.size(); j++) {
+							if (rdbtn.getText() == Global.typesList.get(j).getName()) {
+								_id = Global.typesList.get(j).getId();
+								break;
+							}
+						}
+						Global.timerecord_type_id = _id;
+						System.out.println(Global.timerecord_type_id);
+					} catch (Exception e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+				}
+			});
+			rdbtn.setBounds(x, 22, 39, 23);
+			panel.add(rdbtn);
+			buttonGroup.add(rdbtn);
+			x += 51;
+		}
 		
-		JRadioButton rdbtnS = new JRadioButton("S");
-		rdbtnS.setBounds(67, 22, 39, 23);
-		panel.add(rdbtnS);
-		buttonGroup.add(rdbtnS);
+//		JRadioButton rdbtnE = new JRadioButton("E");
+//		rdbtnE.setBounds(16, 22, 39, 23);
+//		panel.add(rdbtnE);
+//		buttonGroup.add(rdbtnE);
+//		
+//		JRadioButton rdbtnS = new JRadioButton("S");
+//		rdbtnS.setBounds(67, 22, 39, 23);
+//		panel.add(rdbtnS);
+//		buttonGroup.add(rdbtnS);
 		
-		JLabel lblUsernameWorkerlastname = new JLabel("Rodr\u00EDguez Maldonado, N\u00E9stor Fabi\u00E1n (nestor)");
+//		JLabel lblUsernameWorkerlastname = new JLabel("Rodr\u00EDguez Maldonado, N\u00E9stor Fabi\u00E1n (nestor)");
+		JLabel lblUsernameWorkerlastname = new JLabel(Global.worker_name + " (" + Global.current_user + ")");
 		lblUsernameWorkerlastname.setBounds(6, 6, 366, 16);
 		lblUsernameWorkerlastname.setHorizontalAlignment(SwingConstants.CENTER);
 		frmAgtimerecordMarcajes.getContentPane().add(lblUsernameWorkerlastname);
-		frmAgtimerecordMarcajes.getContentPane().setFocusTraversalPolicy(new FocusTraversalOnArray(new Component[]{lblUsernameWorkerlastname, panel, rdbtnE, rdbtnS, panel_1, comboBox, btnRegistrarMarcaje}));
+		frmAgtimerecordMarcajes.getContentPane().setFocusTraversalPolicy(new FocusTraversalOnArray(new Component[]{lblUsernameWorkerlastname, panel,  panel_1, comboBox, btnRegistrarMarcaje}));
 	}
 }

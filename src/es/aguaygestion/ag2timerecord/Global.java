@@ -11,6 +11,7 @@ public class Global {
 	// DAO return values
 	public static Integer timerecord_type_id = 0;
 	public static Integer timerecord_code_id = 0;
+	public static String worker_name = null;
 	// XML Application
 	public static String hostName = null;
 	public static String hostIP = null;
@@ -27,8 +28,6 @@ public class Global {
 	public static String usrPath = System.getProperty("user.home");
 	// Current user
 	public static String current_user = System.getProperty("user.name");
-	// Current worker name
-	public static String worker_name = null;
 	
 	public static Boolean fileExists(String fullFileName) {
 		File f = new File(fullFileName);

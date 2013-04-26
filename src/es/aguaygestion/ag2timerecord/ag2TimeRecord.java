@@ -23,6 +23,7 @@ public class ag2TimeRecord {
 				// Load DAO Lists
 				dao.readTimeRecordTypes();
 				dao.readTimeRecordCodes();
+				dao.workerNameForCurrentWorker();
 				// Display Main Window
 				try {
 					TimeRecordWindow window = new TimeRecordWindow();
