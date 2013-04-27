@@ -90,6 +90,7 @@ public class TimeRecordWindow {
 			public void actionPerformed(ActionEvent arg0) {
 				try {
 					dao.writeTimeRecord();
+					Global.window.frmAgtimerecordMarcajes.setVisible(false);
 				} catch (Exception e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
@@ -116,7 +117,6 @@ public class TimeRecordWindow {
 					TimeRecordCode item = (TimeRecordCode) comboBox
 							.getSelectedItem();
 					Global.timerecord_code_id = item.getId();
-					System.out.println(Global.timerecord_code_id);
 				} catch (Exception e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
@@ -187,6 +187,7 @@ public class TimeRecordWindow {
 						btnRegistrarMarcaje }));
 		
 		// Display trayIcon
+		trayIcon.setImageAutoSize(true);
 		try {
             tray.add(trayIcon);
         } catch (AWTException e) {
