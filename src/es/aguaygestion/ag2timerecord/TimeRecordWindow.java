@@ -20,6 +20,7 @@ import javax.swing.ComboBoxModel;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JComboBox;
+import javax.swing.JOptionPane;
 import javax.swing.JRadioButton;
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
@@ -89,8 +90,25 @@ public class TimeRecordWindow {
 		btnRegistrarMarcaje.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				try {
-					dao.writeTimeRecord();
-					Global.window.frmAgtimerecordMarcajes.setVisible(false);
+					// type_id and code_id must have value
+					if ((Global.timerecord_type_id <= 0)
+							|| (Global.timerecord_type_id == null)) {
+						JOptionPane.showMessageDialog(frmAgtimerecordMarcajes,
+								"Debe indicar Tipo", "ag2TimeRecord",
+								JOptionPane.WARNING_MESSAGE);
+					} else {
+						if ((Global.timerecord_code_id <= 0)
+								|| (Global.timerecord_code_id == null)) {
+							JOptionPane.showMessageDialog(
+									frmAgtimerecordMarcajes,
+									"Debe indicar C—digo", "ag2TimeRecord",
+									JOptionPane.WARNING_MESSAGE);
+						} else {
+							dao.writeTimeRecord();
+							Global.window.frmAgtimerecordMarcajes
+									.setVisible(false);
+						}
+					}
 				} catch (Exception e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
@@ -117,6 +135,7 @@ public class TimeRecordWindow {
 					TimeRecordCode item = (TimeRecordCode) comboBox
 							.getSelectedItem();
 					Global.timerecord_code_id = item.getId();
+					// System.out.println(Global.timerecord_code_id);
 				} catch (Exception e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
@@ -139,6 +158,9 @@ public class TimeRecordWindow {
 		for (int i = 0; i < Global.typesList.size(); i++) {
 			final JRadioButton rdbtn = new JRadioButton(Global.typesList.get(i)
 					.getName());
+			if (i == 0) {
+				rdbtn.setSelected(true);
+			}
 			rdbtn.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent arg0) {
 					try {
@@ -151,7 +173,7 @@ public class TimeRecordWindow {
 							}
 						}
 						Global.timerecord_type_id = _id;
-						System.out.println(Global.timerecord_type_id);
+						// System.out.println(Global.timerecord_type_id);
 					} catch (Exception e) {
 						// TODO Auto-generated catch block
 						e.printStackTrace();
@@ -185,20 +207,20 @@ public class TimeRecordWindow {
 				new FocusTraversalOnArray(new Component[] {
 						lblUsernameWorkerlastname, panel, panel_1, comboBox,
 						btnRegistrarMarcaje }));
-		
+
 		// Display trayIcon
 		trayIcon.setImageAutoSize(true);
 		try {
-            tray.add(trayIcon);
-        } catch (AWTException e) {
-            System.out.println("TrayIcon could not be added.");
-            return;
-        }
+			tray.add(trayIcon);
+		} catch (AWTException e) {
+			System.out.println("TrayIcon could not be added.");
+			return;
+		}
 		trayIcon.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
+			public void actionPerformed(ActionEvent e) {
 				Global.window.frmAgtimerecordMarcajes.setVisible(true);
-            }
-        });
+			}
+		});
 	}
 
 	// Obtain the image URL
