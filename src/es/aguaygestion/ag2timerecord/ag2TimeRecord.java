@@ -1,5 +1,7 @@
 package es.aguaygestion.ag2timerecord;
 
+import java.awt.SystemTray;
+
 import es.aguaygestion.ag2timerecord.MySQLAccess;
 import es.aguaygestion.ag2timerecord.XMLParser;
 
@@ -24,13 +26,17 @@ public class ag2TimeRecord {
 				dao.readTimeRecordTypes();
 				dao.readTimeRecordCodes();
 				dao.workerNameForCurrentWorker();
-				// Display Main Window
-				try {
-					TimeRecordWindow window = new TimeRecordWindow();
-					window.frmAgtimerecordMarcajes.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
+				//Check the SystemTray support
+		        if (!SystemTray.isSupported()) {
+		            startMessage = "\nSystemTray is not supported";
+		        } else {
+					// Display Main Window
+					try {
+						Global.window = new TimeRecordWindow();
+					} catch (Exception e) {
+						e.printStackTrace();
+					}
+		        }
 			} else {
 				startMessage = "\nError reading/writing User XML file!";
 			}

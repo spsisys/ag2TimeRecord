@@ -5,6 +5,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Global {
+	// WindowBuilder
+	public static TimeRecordWindow window;
 	// DAO Lists
 	public static List<TimeRecordType> typesList = new ArrayList<TimeRecordType>();
 	public static List<TimeRecordCode> codesList = new ArrayList<TimeRecordCode>();
