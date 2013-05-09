@@ -30,6 +30,7 @@ public class Global {
 	public static String usrPath = System.getProperty("user.home");
 	// Current user
 	public static String current_user = System.getProperty("user.name");
+	public static Integer user_id = 0;
 	
 	public static Boolean fileExists(String fullFileName) {
 		File f = new File(fullFileName);

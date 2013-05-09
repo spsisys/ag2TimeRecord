@@ -28,7 +28,7 @@ public class MySQLAccess {
 		}
 	}
 
-	public void workerIdForCurrentUser() throws Exception {
+	public void userIdForCurrentUser() throws Exception {
 		if (!newConnection()) {
 			return;
 		}
@@ -42,13 +42,33 @@ public class MySQLAccess {
 			resultSet.first();
 			Integer _user_id = resultSet.getInt("id");
 			if (_user_id == null) {
-				Global.worker_id = 0;
-				return;
+				Global.user_id = 0;
+			} else {
+				Global.user_id = _user_id;
 			}
+		} catch (Exception e) {
+			throw e;
+		} finally {
+			closeDataObjects();
+		}
+	}
+	
+	public void workerIdForCurrentUser() throws Exception {
+		userIdForCurrentUser();
+		if (Global.user_id == 0) {
+			Global.worker_id = 0;
+			return;
+		}
+		if (!newConnection()) {
+			Global.worker_id = 0;
+			return;
+		}
+		try {
+			/* PreparedStatement to issue SQL query */
 			// Search worker using user_id to extract worker_id
 			preparedStatement = connection
 					.prepareStatement("select id, last_name, first_name from workers where user_id = "
-							+ _user_id);
+							+ Global.user_id);
 			resultSet = preparedStatement.executeQuery();
 			resultSet.first();
 			Integer _worker_id = resultSet.getInt("id");
@@ -64,6 +84,10 @@ public class MySQLAccess {
 	}
 
 	public void workerNameForCurrentWorker() throws Exception {
+		userIdForCurrentUser();
+		if (Global.user_id == 0) {
+			return;
+		}
 		if (!newConnection()) {
 			return;
 		}
@@ -130,7 +154,7 @@ public class MySQLAccess {
 			}
 			// PreparedStatement to issue SQL query
 			preparedStatement = connection
-					.prepareStatement("select id, name from timerecord_types");
+					.prepareStatement("select id, name from timerecord_types order by id");
 			// SQL query's ResultSet with PreparedStatement
 			resultSet = preparedStatement.executeQuery();
 			// Load types list
@@ -155,7 +179,7 @@ public class MySQLAccess {
 			}
 			// PreparedStatement to issue SQL query
 			preparedStatement = connection
-					.prepareStatement("select id, name from timerecord_codes");
+					.prepareStatement("select id, name from timerecord_codes order by id");
 			// SQL query's ResultSet with PreparedStatement
 			resultSet = preparedStatement.executeQuery();
 			// Load codes list
@@ -192,8 +216,10 @@ public class MySQLAccess {
 			// 5: timerecord_code,
 			// 6: created_at
 			// 7: updated_at
+			// 8: created_by
+			// 9: updated_by
 			preparedStatement = connection
-					.prepareStatement("insert into time_records values (default, ?, ?, ?, ? , ?, ?, ?)");
+					.prepareStatement("insert into time_records values (default, ?, ?, ?, ? , ?, ?, ?, ?, ?)");
 			preparedStatement.setDate(1, timerecord_date);
 			preparedStatement.setTime(2, timerecord_time);
 			preparedStatement.setInt(3, Global.worker_id);
@@ -201,6 +227,8 @@ public class MySQLAccess {
 			preparedStatement.setInt(5, Global.timerecord_code_id);
 			preparedStatement.setTimestamp(6, _at);
 			preparedStatement.setTimestamp(7, _at);
+			preparedStatement.setInt(8, Global.user_id);
+			preparedStatement.setInt(9, Global.user_id);
 			preparedStatement.executeUpdate();
 
 			return true;

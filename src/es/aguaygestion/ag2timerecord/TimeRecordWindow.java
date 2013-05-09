@@ -129,6 +129,7 @@ public class TimeRecordWindow {
 		panel_1.setLayout(null);
 
 		final JComboBox comboBox = new JComboBox(Global.codesList.toArray());
+		Global.timerecord_code_id = Global.codesList.get(0).getId();
 		comboBox.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				try {
@@ -160,6 +161,7 @@ public class TimeRecordWindow {
 					.getName());
 			if (i == 0) {
 				rdbtn.setSelected(true);
+				Global.timerecord_type_id = Global.typesList.get(i).getId();
 			}
 			rdbtn.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent arg0) {
