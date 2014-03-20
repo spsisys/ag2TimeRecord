@@ -3,6 +3,7 @@ package es.aguaygestion.ag2timerecord;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
+import java.net.InetAddress;
 
 public class Global {
 	// WindowBuilder
@@ -39,5 +40,14 @@ public class Global {
 		} else {
 			return false;
 		}
+	}
+
+	public static String clientIP() {
+		String _ip = "";
+		try {
+			  InetAddress _inet = InetAddress.getLocalHost();
+		      _ip += _inet.getHostAddress();
+		} catch (Exception e) { }
+		return _ip;
 	}
 }

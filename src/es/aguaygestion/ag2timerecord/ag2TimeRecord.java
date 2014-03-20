@@ -15,6 +15,7 @@ public class ag2TimeRecord {
 		String startMessage = null;
 
 		System.out.println("ag2TimeRecord Client Started.");
+		System.out.println(Global.clientIP());
 
 		XMLParser xml = new XMLParser();
 		// Try read XML Application file
